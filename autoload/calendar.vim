@@ -628,6 +628,8 @@ function! calendar#show(...)
               let vdisplay2 = vdisplay2.'KW '.viweek
             elseif g:calendar_weeknm == 5
               let vdisplay2 = vdisplay2.' '.viweek
+            elseif g:calendar_weeknm == 6
+              let vdisplay2 = vdisplay2.'W'.viweek
             endif
           else
             if g:calendar_weeknm <= 2
@@ -636,6 +638,8 @@ function! calendar#show(...)
               let vdisplay2 = vdisplay2.'KW'.viweek
             elseif g:calendar_weeknm == 5
               let vdisplay2 = vdisplay2.viweek
+            elseif g:calendar_weeknm == 6
+              let vdisplay2 = vdisplay2.'W'.viweek
             endif
           endif
           let viweek = viweek + 1
@@ -679,6 +683,8 @@ function! calendar#show(...)
             let vdisplay2 = vdisplay2.'KW '.viweek
           elseif g:calendar_weeknm == 5
             let vdisplay2 = vdisplay2.' '.viweek
+            elseif g:calendar_weeknm == 6
+              let vdisplay2 = vdisplay2.'W'.viweek
           endif
         else
           if g:calendar_weeknm <= 2
@@ -687,6 +693,8 @@ function! calendar#show(...)
             let vdisplay2 = vdisplay2.'KW'.viweek
           elseif g:calendar_weeknm == 5
             let vdisplay2 = vdisplay2.viweek
+            elseif g:calendar_weeknm == 6
+              let vdisplay2 = vdisplay2.'W'.viweek
           endif
         endif
       endif
@@ -987,6 +995,8 @@ function! calendar#show(...)
   " week number
   if !exists('g:calendar_weeknm') || g:calendar_weeknm <= 2
     syn match CalWeeknm display "WK[0-9\ ]\d"
+  elseif g:calendar_weeknm == 6
+    syn match CalWeeknm display "W[0-9]\?\d"
   else
     syn match CalWeeknm display "KW[0-9\ ]\d"
   endif
@@ -1042,19 +1052,19 @@ function! calendar#diary(day, month, year, week, dir)
     call confirm("please create diary directory : ".g:calendar_diary, 'OK')
     return
   endif
-  let sfile = expand(g:calendar_diary) . "/" . printf("%04d", a:year)
-  if isdirectory(sfile) == 0
-    if s:make_dir(sfile) != 0
-      return
-    endif
-  endif
-  let sfile = sfile . "/" . printf("%02d", a:month)
-  if isdirectory(sfile) == 0
-    if s:make_dir(sfile) != 0
-      return
-    endif
-  endif
-  let sfile = expand(sfile) . "/" . printf("%02d", a:day) . g:calendar_diary_extension
+  "let sfile = expand(g:calendar_diary) . "/" . printf("%04d", a:year)
+  "if isdirectory(sfile) == 0
+  "  if s:make_dir(sfile) != 0
+  "    return
+  "  endif
+  "endif
+  "let sfile = sfile . "/" . printf("%02d", a:month)
+  "if isdirectory(sfile) == 0
+  "  if s:make_dir(sfile) != 0
+  "    return
+  "  endif
+  "endif
+  let sfile = expand(g:calendar_diary) . "/" . printf("%04d", a:year) . printf("%02d", a:month) . printf("%02d", a:day) . g:calendar_diary_extension
   let sfile = substitute(sfile, ' ', '\\ ', 'g')
   let vbufnr = bufnr('__Calendar')
 
@@ -1076,7 +1086,10 @@ endfunc
 "*   year  : year of sign
 "*****************************************************************
 function! calendar#sign(day, month, year)
-  let sfile = g:calendar_diary."/".printf("%04d", a:year)."/".printf("%02d", a:month)."/".printf("%02d", a:day).g:calendar_diary_extension
+  " 原来以目录结构归档
+  " let sfile = g:calendar_diary."/".printf("%04d", a:year)."/".printf("%02d", a:month)."/".printf("%02d", a:day).g:calendar_diary_extension
+  " NotePlan 都统统放在同一个目录中。
+  let sfile = g:calendar_diary."/".printf("%04d", a:year).printf("%02d", a:month).printf("%02d", a:day).g:calendar_diary_extension
   return filereadable(expand(sfile))
 endfunction
 
