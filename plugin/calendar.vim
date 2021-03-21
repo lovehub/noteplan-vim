@@ -212,10 +212,11 @@ endif
 "*****************************************************************
 "* Calendar commands
 "*****************************************************************
-command! -nargs=* Calendar  call calendar#show(0,<f-args>)
-command! -nargs=* CalendarVR  call calendar#show(3,<f-args>)
-command! -nargs=* CalendarH call calendar#show(1,<f-args>)
-command! -nargs=* CalendarT call calendar#show(2,<f-args>)
+command! -nargs=* Noteplan  call calendar#show(0,<f-args>)
+command! -nargs=* NotePlan  call calendar#show(0,<f-args>)
+command! -nargs=* NotePlanVR  call calendar#show(3,<f-args>)
+command! -nargs=* NotePlanH call calendar#show(1,<f-args>)
+command! -nargs=* NotePlanT call calendar#show(2,<f-args>)
 
 if !get(g:, 'calendar_no_mappings', 0)
   if !hasmapto('<Plug>CalendarV')
@@ -225,8 +226,8 @@ if !get(g:, 'calendar_no_mappings', 0)
     nmap <unique> <Leader>caL <Plug>CalendarH
   endif
 endif
-nnoremap <silent> <Plug>CalendarV :cal calendar#show(0)<CR>
-nnoremap <silent> <Plug>CalendarH :cal calendar#show(1)<CR>
-nnoremap <silent> <Plug>CalendarT :cal calendar#show(2)<CR>
+nnoremap <silent> <Plug>NotePlanV :cal calendar#show(0)<CR>
+nnoremap <silent> <Plug>NotePlanH :cal calendar#show(1)<CR>
+nnoremap <silent> <Plug>NotePlanT :cal calendar#show(2)<CR>
 
 " vi: et sw=2 ts=2
